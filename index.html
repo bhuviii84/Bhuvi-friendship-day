@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friendship Day Surprise for Bhuvi</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <div class="floating-hearts" aria-hidden="true"></div>
+      <section class="hero-card">
+        <div class="badge">✨ Friendship Day Surprise</div>
+        <h1>For <span id="friend-name-heading">Bhuvi</span>, my first friend and forever favorite.</h1>
+        <p class="subtitle">
+          A little page wrapped in gratitude, sparkles, and every happy word I could gather for the person who made friendship feel like home.
+        </p>
+        <button class="primary-action" id="open-surprise">🎁 Open your surprise</button>
+      </section>
+
+      <section class="surprise-grid" id="surprise-grid" hidden>
+        <article class="letter-card">
+          <div class="section-title">💌 A letter for you</div>
+          <div id="letter-copy"></div>
+        </article>
+
+        <article class="memory-card">
+          <div class="section-title">💖 Why you are priceless</div>
+          <ul id="reason-list"></ul>
+        </article>
+
+        <article class="wish-card">
+          <div class="section-title">⭐ A wish just for you</div>
+          <p id="wish-copy"></p>
+          <button class="secondary-action" id="next-wish">Another happy wish</button>
+        </article>
+
+        <article class="promise-card">
+          <div class="section-title">♾️ My promise</div>
+          <p>
+            No matter how life changes, I will always cheer for you, remember you, and keep a special place in my heart labeled: Bhuvi, the beginning of my best friendships.
+          </p>
+        </article>
+      </section>
+    </main>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
