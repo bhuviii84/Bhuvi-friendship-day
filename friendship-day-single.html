@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Friendship Day Surprise for Bhuvi</title>
+    <style>
+      :root {
+        color: #32122f;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: #fff0f8;
+      }
+      
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; overflow-x: hidden; }
+      button { font: inherit; }
+      
+      .page-shell {
+        position: relative;
+        min-height: 100vh;
+        padding: 48px 18px;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 10% 15%, rgba(255, 216, 117, 0.65), transparent 24%),
+          radial-gradient(circle at 90% 15%, rgba(255, 119, 184, 0.5), transparent 28%),
+          radial-gradient(circle at 50% 90%, rgba(138, 77, 255, 0.22), transparent 28%),
+          linear-gradient(135deg, #fff7fb 0%, #ffe0ef 46%, #f8e8ff 100%);
+      }
+      
+      .page-card {
+        position: relative;
+        z-index: 1;
+        width: min(940px, 100%);
+        min-height: min(720px, calc(100vh - 96px));
+        padding: clamp(30px, 7vw, 76px);
+        display: grid;
+        align-content: center;
+        gap: 22px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.78);
+        border-radius: 38px;
+        background: rgba(255, 255, 255, 0.68);
+        box-shadow: 0 24px 70px rgba(126, 38, 88, 0.2);
+        overflow: hidden;
+        backdrop-filter: blur(18px);
+      }
+      
+      .page-card::before,
+      .page-card::after {
+        content: '💖 😊 💛 💕 😄 ✨';
+        position: absolute;
+        inset-inline: -30px;
+        font-size: clamp(1.6rem, 5vw, 3.3rem);
+        letter-spacing: 0.45em;
+        opacity: 0.16;
+        animation: marquee 18s linear infinite;
+      }
+      
+      .page-card::before { top: 18px; }
+      .page-card::after { bottom: 18px; animation-direction: reverse; }
+      
+      .page-card.is-active { animation: cardPop 560ms ease both; }
+      
+      .badge, .section-title {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 9px;
+        color: #9b1d63;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      
+      .hero-card h1 {
+        margin: 0 auto;
+        max-width: 780px;
+        font-size: clamp(2.5rem, 8vw, 6.4rem);
+        line-height: 0.93;
+        letter-spacing: -0.07em;
+      }
+      
+      .subtitle, .page-content p, .sparkle-list li, .big-note {
+        color: #593153;
+        font-size: clamp(1.04rem, 2.3vw, 1.28rem);
+        line-height: 1.75;
+      }
+      
+      .subtitle { max-width: 720px; margin: 0 auto; color: #684063; }
+      
+      .primary-action, .secondary-action {
+        border: 0;
+        border-radius: 999px;
+        cursor: pointer;
+        color: white;
+        font-weight: 900;
+        transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+      }
+      
+      .primary-action {
+        justify-self: center;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 17px 30px;
+        background: linear-gradient(135deg, #ff4f9a, #8a4dff);
+        box-shadow: 0 15px 32px rgba(188, 55, 143, 0.35);
+      }
+      
+      .secondary-action {
+        padding: 13px 20px;
+        background: linear-gradient(135deg, #32122f, #9b1d63);
+        box-shadow: 0 12px 24px rgba(50, 18, 47, 0.22);
+      }
+      
+      .primary-action:hover, .secondary-action:hover { transform: translateY(-3px) scale(1.03); filter: saturate(1.2); }
+      
+      .story-stage { width: min(940px, 100%); }
+      .story-card { min-height: min(680px, calc(100vh - 96px)); }
+      .page-content { position: relative; z-index: 1; }
+      .sparkle-list { margin: 0 auto; padding: 0; max-width: 720px; list-style: none; }
+      .sparkle-list li { margin: 14px 0; padding: 14px 18px; border-radius: 20px; background: rgba(255, 244, 251, 0.78); }
+      .sparkle-list li::before { content: '💝 '; }
+      
+      .smile-gallery {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(58px, 1fr));
+        gap: 14px;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+      
+      .smile-gallery span {
+        display: grid;
+        place-items: center;
+        min-height: 84px;
+        border-radius: 24px;
+        font-size: clamp(2.2rem, 7vw, 4rem);
+        background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,216,239,0.84));
+        box-shadow: inset 0 0 24px rgba(255, 79, 154, 0.16);
+        animation: bounceSmile 1.8s ease-in-out infinite;
+      }
+      
+      .smile-gallery span:nth-child(even) { animation-delay: 0.35s; }
+      .page-footer { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; }
+      .page-count { color: #9b1d63; font-weight: 900; }
+      
+      .floating-hearts, .emoji-rain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      
+      .floating-hearts span {
+        position: absolute;
+        left: var(--left);
+        bottom: -50px;
+        color: rgba(255, 77, 151, 0.46);
+        font-size: var(--size);
+        animation: floatUp 8s linear infinite;
+        animation-delay: var(--delay);
+      }
+      
+      .emoji-rain span {
+        position: absolute;
+        left: var(--left);
+        top: -42px;
+        font-size: 1.35rem;
+        opacity: 0.42;
+        animation: driftDown var(--duration) linear infinite;
+        animation-delay: var(--delay);
+      }
+      
+      .confetti-piece {
+        position: fixed;
+        top: -18px;
+        left: var(--x);
+        z-index: 3;
+        width: 10px;
+        height: 16px;
+        border-radius: 4px;
+        pointer-events: none;
+        font-size: 1.4rem;
+        animation: confettiFall 1.7s ease-in var(--delay) forwards;
+      }
+      
+      @keyframes floatUp {
+        from { transform: translateY(0) rotate(0deg); opacity: 0; }
+        12% { opacity: 1; }
+        to { transform: translateY(-115vh) rotate(30deg); opacity: 0; }
+      }
+      
+      @keyframes driftDown {
+        from { transform: translateY(0) translateX(0) rotate(0deg); }
+        to { transform: translateY(115vh) translateX(48px) rotate(180deg); }
+      }
+      
+      @keyframes confettiFall {
+        from { transform: translateY(0) rotate(0deg); opacity: 1; }
+        to { transform: translateY(108vh) rotate(720deg); opacity: 0; }
+      }
+      
+      @keyframes cardPop {
+        from { opacity: 0; transform: translateY(22px) scale(0.97); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      
+      @keyframes bounceSmile {
+        0%, 100% { transform: translateY(0) rotate(-2deg); }
+        50% { transform: translateY(-9px) rotate(2deg); }
+      }
+      
+      @keyframes marquee {
+        from { transform: translateX(-8%); }
+        to { transform: translateX(8%); }
+      }
+      
+      @media (max-width: 760px) {
+        .page-shell { padding: 24px 12px; }
+        .page-card { min-height: calc(100vh - 48px); border-radius: 28px; }
+        .smile-gallery { grid-template-columns: repeat(2, minmax(80px, 1fr)); }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page-shell">
+      <div class="floating-hearts" aria-hidden="true"></div>
+      <div class="emoji-rain" aria-hidden="true"></div>
+      <section class="hero-card page-card is-active" id="hero-page">
+        <div class="badge">✨ Friendship Day Surprise</div>
+        <h1>For <span id="friend-name-heading">Bhuvi</span>, my first friend and forever favorite.</h1>
+        <p class="subtitle">
+          A single magical page of friendship, split into sweet little moments. Tap next to walk through smiles, hearts, promises, and happy surprises made just for you.
+        </p>
+        <button class="primary-action next-page" type="button">🎁 Start the surprise</button>
+      </section>
+
+      <section class="story-stage" id="story-stage" aria-live="polite"></section>
+    </main>
+    <script type="module">
+      export const friendName = 'Bhuvi';
+      
+      export const reasons = [
+        'You made ordinary days feel like tiny festivals.',
+        'You listened to the messy chapters and still chose to stay.',
+        'Your laugh is my favorite notification from the universe.',
+        'You are proof that family can begin as friendship.',
+        'From my first real friend to my forever one, you are irreplaceable.',
+        'You turn simple moments into memories I want to replay.'
+      ];
+      
+      export const letterParagraphs = [
+        'Happy Friendship Day, my one and only, my very first friend, and the friend I hope life lets me keep until the very last page.',
+        'You are not just a memory I smile at; you are a safe place I carry with me. Every silly joke, every late conversation, every little act of care has become a beautiful part of who I am.',
+        'If friendship had a crown, I would place it on you with both hands. If gratitude had a voice, it would say your name again and again.',
+        'Thank you for being the kind of person who makes hearts lighter. Today is for you, for us, and for the bond I never want to lose.'
+      ];
+      
+      export const wishes = [
+        'May every dream that makes your eyes shine find its way to you.',
+        'May your smile be protected on hard days and celebrated on happy ones.',
+        'May our friendship keep collecting stories that become our favorite treasures.',
+        'May you always feel how deeply you are valued, chosen, and loved as a friend.',
+        'May every tomorrow bring you a new reason to say, I am happy.'
+      ];
+      
+      export const surprisePages = [
+        {
+          icon: '💌',
+          title: 'A letter for you',
+          type: 'paragraphs',
+          content: letterParagraphs
+        },
+        {
+          icon: '💖',
+          title: 'Why you are priceless',
+          type: 'list',
+          content: reasons
+        },
+        {
+          icon: '⭐',
+          title: 'Wishes just for you',
+          type: 'list',
+          content: wishes
+        },
+        {
+          icon: '😊',
+          title: 'Smile gallery',
+          type: 'emoji',
+          content: ['😊', '😄', '🥰', '🤗', '😁', '💫', '💝', '💞']
+        },
+        {
+          icon: '♾️',
+          title: 'My promise',
+          type: 'paragraphs',
+          content: [
+            'No matter how life changes, I will always cheer for you, remember you, and keep a special place in my heart labeled: Bhuvi, the beginning of my best friendships.',
+            'Whenever you open this page, imagine a shower of hearts, sparkles, and smiles saying: you matter so much.'
+          ]
+        }
+      ];
+      
+      let activePage = -1;
+      
+      function createFloatingHearts() {
+        const container = document.querySelector('.floating-hearts');
+        if (!container) return;
+        const symbols = ['♥', '💗', '💖', '😊', '💛', '✨', '🥰', '💞'];
+        container.innerHTML = Array.from({ length: 34 }, (_, index) => (
+          `<span style="--delay: ${index * 0.28}s; --left: ${3 + (index * 11) % 94}%; --size: ${1 + (index % 5) * 0.25}rem">${symbols[index % symbols.length]}</span>`
+        )).join('');
+      }
+      
+      function createEmojiRain() {
+        const container = document.querySelector('.emoji-rain');
+        if (!container) return;
+        const symbols = ['😊', '💖', '💛', '💕', '😄', '✨', '💝', '🌟'];
+        container.innerHTML = Array.from({ length: 28 }, (_, index) => (
+          `<span style="--delay: ${index * 0.5}s; --left: ${(index * 17) % 100}%; --duration: ${8 + (index % 6)}s">${symbols[index % symbols.length]}</span>`
+        )).join('');
+      }
+      
+      function renderPageContent(page) {
+        if (page.type === 'list') {
+          return `<ul class="sparkle-list">${page.content.map((item) => `<li>${item}</li>`).join('')}</ul>`;
+        }
+        if (page.type === 'emoji') {
+          return `<div class="smile-gallery">${page.content.map((item) => `<span>${item}</span>`).join('')}</div><p class="big-note">A whole bunch of happy faces because your friendship deserves endless smiles.</p>`;
+        }
+        return page.content.map((paragraph) => `<p>${paragraph}</p>`).join('');
+      }
+      
+      function renderStoryPages() {
+        const stage = document.querySelector('#story-stage');
+        if (!stage) return;
+        stage.innerHTML = surprisePages.map((page, index) => `
+          <article class="page-card story-card" data-page="${index}" hidden>
+            <div class="section-title">${page.icon} ${page.title}</div>
+            <div class="page-content">${renderPageContent(page)}</div>
+            <div class="page-footer">
+              <span class="page-count">Page ${index + 1} of ${surprisePages.length}</span>
+              <button class="secondary-action next-page" type="button">${index === surprisePages.length - 1 ? 'Replay happiness 😊' : 'Next page 💕'}</button>
+            </div>
+          </article>
+        `).join('');
+      }
+      
+      function showPage(nextIndex) {
+        document.querySelector('#hero-page')?.classList.toggle('is-active', nextIndex === -1);
+        document.querySelector('#hero-page')?.toggleAttribute('hidden', nextIndex !== -1);
+        document.querySelectorAll('.story-card').forEach((card, index) => {
+          const isActive = index === nextIndex;
+          card.toggleAttribute('hidden', !isActive);
+          card.classList.toggle('is-active', isActive);
+        });
+        activePage = nextIndex;
+        sparkleBurst();
+      }
+      
+      export function sparkleBurst() {
+        const colors = ['#ff4f9a', '#8a4dff', '#ffd86f', '#ffffff', '#ff8cc8'];
+        for (let index = 0; index < 44; index += 1) {
+          const piece = document.createElement('span');
+          piece.className = 'confetti-piece';
+          piece.textContent = index % 5 === 0 ? '😊' : index % 3 === 0 ? '💖' : '';
+          piece.style.setProperty('--x', `${Math.random() * 100}vw`);
+          piece.style.setProperty('--delay', `${Math.random() * 0.35}s`);
+          piece.style.background = piece.textContent ? 'transparent' : colors[index % colors.length];
+          document.body.appendChild(piece);
+          piece.addEventListener('animationend', () => piece.remove());
+        }
+      }
+      
+      function setupInteractions() {
+        document.querySelectorAll('.next-page').forEach((button) => {
+          button.addEventListener('click', () => {
+            const nextIndex = activePage + 1 >= surprisePages.length ? -1 : activePage + 1;
+            showPage(nextIndex);
+            document.querySelector('.page-card.is-active')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          });
+        });
+      }
+      
+      function renderContent() {
+        document.querySelector('#friend-name-heading').textContent = friendName;
+        renderStoryPages();
+      }
+      
+      if (typeof document !== 'undefined') {
+        createFloatingHearts();
+        createEmojiRain();
+        renderContent();
+        setupInteractions();
+      }
+    </script>
+  </body>
+</html>
