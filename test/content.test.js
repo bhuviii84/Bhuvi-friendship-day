@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
-import { friendName, letterParagraphs, reasons, wishes } from '../src/main.js';
+import { friendName, letterParagraphs, reasons, surprisePages, wishes } from '../src/main.js';
 
 describe('friendship surprise content', () => {
   it('personalizes the experience for Bhuvi', () => {
@@ -11,5 +11,11 @@ describe('friendship surprise content', () => {
     assert.ok(letterParagraphs.length >= 4);
     assert.ok(reasons.length >= 5);
     assert.ok(wishes.length >= 4);
+  });
+
+  it('combines the experience into sequential next-button pages', () => {
+    assert.ok(surprisePages.length >= 5);
+    assert.ok(surprisePages.some((page) => page.title.includes('Smile')));
+    assert.ok(surprisePages.every((page) => page.icon));
   });
 });
